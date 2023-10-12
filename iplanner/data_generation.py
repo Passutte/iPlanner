@@ -15,12 +15,14 @@ from esdf_mapping import TSDF_Creator, DepthReconstruction
 if __name__ == '__main__':
     
     root_folder = os.getenv('EXPERIMENT_DIRECTORY', os.getcwd())
+    data_folder_directory = os.getenv('DATA_DIRECTORY', os.getcwd())
+
     # Load parameters from json file
     with open(os.path.join(os.path.dirname(root_folder), 'config', 'data_generation.json')) as json_file:
         parameters = json.load(json_file)
     
     folder_name = parameters.get('folder_name', "CollectedData")
-    folder_path = os.path.join(*[root_folder, "data"])
+    folder_path = os.path.join(*[data_folder_directory, "data"])
     ids_path = os.path.join(folder_path, "collect_list.txt")
     
     if not folder_name == "":
@@ -33,7 +35,7 @@ if __name__ == '__main__':
     print("Env List: ", env_list)
 
     outfolder_name = parameters.get('outfolder_name', "TrainingData")
-    output_folder = os.path.join(*[root_folder, "data", outfolder_name])
+    output_folder = os.path.join(*[data_folder_directory, "data", outfolder_name])
 
     image_type = parameters.get('image_type', "depth")
     voxel_size = parameters.get('voxel_size', 0.05)

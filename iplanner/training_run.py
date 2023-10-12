@@ -31,6 +31,7 @@ torch.set_default_dtype(torch.float32)
 class PlannerNetTrainer:
     def __init__(self):
         self.root_folder = os.getenv('EXPERIMENT_DIRECTORY', os.getcwd())
+        self.root_data_folder = os.getenv('DATA_DIRECTORY', os.getcwd())
         self.load_config()
         self.parse_args()
         self.prepare_model()
@@ -283,7 +284,7 @@ class PlannerNetTrainer:
         parser = argparse.ArgumentParser(description='Training script for PlannerNet')
 
         # dataConfig
-        parser.add_argument("--data-root", type=str, default=os.path.join(self.root_folder, self.config['dataConfig'].get('data-root')), help="dataset root folder")
+        parser.add_argument("--data-root", type=str, default=os.path.join(self.root_data_folder, self.config['dataConfig'].get('data-root')), help="dataset root folder")
         parser.add_argument('--env-id', type=str, default=self.config['dataConfig'].get('env-id'), help='environment id list')
         parser.add_argument('--env_type', type=str, default=self.config['dataConfig'].get('env_type'), help='the dataset type')
         parser.add_argument('--crop-size', nargs='+', type=int, default=self.config['dataConfig'].get('crop-size'), help='image crop size')

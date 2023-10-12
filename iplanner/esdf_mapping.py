@@ -21,8 +21,12 @@ class CloudUtils:
     @staticmethod
     def create_open3d_cloud(points, voxel_size):
         pcd = o3d.geometry.PointCloud()
-        pcd.points = o3d.utility.Vector3dVector(points)
-        pcd = pcd.voxel_down_sample(voxel_size)
+        step = 100000000 # if too high (above 200mio points) there is a memory issue and it fails...
+        idx = 0
+        while(idx < points.shape[0]):
+            pcd.points = o3d.utility.Vector3dVector(points[idx:min(idx+step, points.shape[0]),:])
+            pcd = pcd.voxel_down_sample(voxel_size)
+            idx += step
         return pcd
 
     @staticmethod
