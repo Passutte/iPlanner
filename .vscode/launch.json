@@ -1,0 +1,61 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        // Task 00
+        {
+            "name": "Run Data Generation",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/iplanner/data_generation.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "noDebug": true,
+            "env": {
+                "EXPERIMENT_DIRECTORY": "${workspaceFolder}/iplanner",
+                "DATA_DIRECTORY": "${workspaceFolder}/iplanner"
+            }
+        },
+        {
+            "name": "Debug Data Generation",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/iplanner/data_generation.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "EXPERIMENT_DIRECTORY": "${workspaceFolder}/iplanner",
+                "DATA_DIRECTORY": "${workspaceFolder}/iplanner"
+            }
+        },
+        {
+            "name": "Run Training",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/iplanner/training_run.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "noDebug": true,
+            "env": {
+                "EXPERIMENT_DIRECTORY": "${workspaceFolder}/iplanner",
+                "DATA_DIRECTORY": "${workspaceFolder}/iplanner",
+                "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:512"
+            }
+        },
+        {
+            "name": "Debug Training",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/iplanner/training_run.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "EXPERIMENT_DIRECTORY": "${workspaceFolder}/iplanner",
+                "DATA_DIRECTORY": "${workspaceFolder}/iplanner",
+                "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:512"
+            }
+        },
+    ]
+}

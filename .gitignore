@@ -12,8 +12,6 @@ models/
 
 .catkin_tools
 
-.vscode
-
 *.png
 
 *.ply
