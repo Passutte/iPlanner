@@ -16,6 +16,15 @@ from itertools import repeat
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
 
+def get_device(gpu_id=0):
+    if torch.cuda.is_available():
+        device = torch.device("cuda:" + str(gpu_id))
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+    return device
+
 
 def _ntuple(n):
     def parse(x):
