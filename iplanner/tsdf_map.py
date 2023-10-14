@@ -28,12 +28,12 @@ class TSDF_Map:
         self.voxel_size = params[0]
         self.clear_dist = params[1]
         self.start_x, self.start_y = coord
-        self.tsdf_array = torch.tensor(data[0], device=self.device)
+        self.tsdf_array = torch.tensor(data[0], device=self.device, dtype=torch.float32)
         self.num_x, self.num_y = self.tsdf_array.shape
         # visualization points
         self.viz_points = data[1]
         self.pcd_viz.points = o3d.utility.Vector3dVector(self.viz_points)
-        self.ground_array = torch.tensor(data[2], device=self.device)
+        self.ground_array = torch.tensor(data[2], device=self.device, dtype=torch.float32)
         # set cost map
         self.SetUpCostArray()
          # update pcd instance
