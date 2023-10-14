@@ -12,15 +12,14 @@ import numpy as np
 import torch
 import os
 
+from torchutil import get_device
+
 torch.set_default_dtype(torch.float32)
 
 class TSDF_Map:
     def __init__(self, gpu_id=0):
         self.map_init = False
-        if torch.cuda.is_available():
-            self.device = torch.device("cuda:" + str(gpu_id))
-        else:
-            self.device = torch.device("cpu")
+        self.device = get_device(gpu_id)
         self.pcd_tsdf = o3d.geometry.PointCloud()
         self.pcd_viz  = o3d.geometry.PointCloud()
 
@@ -57,19 +56,19 @@ class TSDF_Map:
 
     def Pos2Ind(self, points):
         # points [torch shapes [num_p, 3]]
-        start_xy = torch.tensor([self.start_x, self.start_y], dtype=torch.float64, device=points.device).expand(1, 1, -1)
+        start_xy = torch.tensor([self.start_x, self.start_y], dtype=torch.float32, device=points.device).expand(1, 1, -1)
         H = (points.tensor()[:, :, 0:2] - start_xy) / self.voxel_size
         # H = torch.round(H)
         mask = torch.logical_and((H > 0).all(axis=2), (H < torch.tensor([self.num_x, self.num_y], device=points.device)[None,None,:]).all(axis=2))
         return self.NormInds(H), H[mask, :]
 
     def NormInds(self, H):
-        norm_matrix = torch.tensor([self.num_x/2.0, self.num_y/2.0], dtype=torch.float64, device=H.device)
+        norm_matrix = torch.tensor([self.num_x/2.0, self.num_y/2.0], dtype=torch.float32, device=H.device)
         H = (H - norm_matrix) / norm_matrix
         return H
 
     def DeNormInds(self, NH):
-        norm_matrix = torch.tensor([self.num_x/2.0, self.num_y/2.0], dtype=torch.float64, device=NH.device)
+        norm_matrix = torch.tensor([self.num_x/2.0, self.num_y/2.0], dtype=torch.float32, device=NH.device)
         NH = NH * norm_matrix + norm_matrix
         return NH
 
@@ -107,9 +106,9 @@ class TSDF_Map:
         self.start_x    = float(content[1])
         self.start_y    = float(content[2])
         self.clear_dist = float(content[3])
-        self.tsdf_array = torch.tensor(np.loadtxt(map_path), device=self.device)
-        self.viz_points = np.loadtxt(cloud_path)
-        self.ground_array = torch.tensor(np.loadtxt(ground_path), device=self.device)
+        self.tsdf_array = torch.tensor(np.loadtxt(map_path, dtype=np.float32), device=self.device)
+        self.viz_points = np.loadtxt(cloud_path, dtype=np.float32)
+        self.ground_array = torch.tensor(np.loadtxt(ground_path, dtype=np.float32), device=self.device)
 
         self.num_x, self.num_y = self.tsdf_array.shape
         # visualization points

@@ -22,7 +22,7 @@ import torchvision.transforms as transforms
 
 from planner_net import PlannerNet
 from dataloader import PlannerData, MultiEpochsDataLoader
-from torchutil import EarlyStopScheduler
+from torchutil import EarlyStopScheduler, get_device
 from traj_cost import TrajCost
 from traj_viz import TrajViz
 
@@ -33,6 +33,7 @@ class PlannerNetTrainer:
         self.root_folder = os.getenv('EXPERIMENT_DIRECTORY', os.getcwd())
         self.load_config()
         self.parse_args()
+        self.device = get_device(self.args.gpu_id)
         self.prepare_model()
         self.prepare_data()
         if self.args.training == True:
@@ -75,8 +76,12 @@ class PlannerNetTrainer:
         if torch.cuda.is_available():
             print("Available GPU list: {}".format(list(range(torch.cuda.device_count()))))
             print("Runnin on GPU: {}".format(self.args.gpu_id))
-            self.net = self.net.cuda(self.args.gpu_id)
+        elif torch.backends.mps.is_available():
+            print("Runnin on M1 GPU: mps")
+        else:
+            print("Running on CPU")
 
+        self.net = self.net.to(self.device)
         self.optimizer = optim.AdamW(self.net.parameters(), lr=self.args.lr, weight_decay=self.args.w_decay)
         self.scheduler = EarlyStopScheduler(self.optimizer, factor=self.args.factor, verbose=True, min_lr=self.args.min_lr, patience=self.args.patience)
 
@@ -173,15 +178,14 @@ class PlannerNetTrainer:
 
             enumerater = tqdm.tqdm(enumerate(loader))
             for batch_idx, inputs in enumerater:
-                if torch.cuda.is_available():
-                    image = inputs[0].cuda(self.args.gpu_id)
-                    odom  = inputs[1].cuda(self.args.gpu_id)
-                    goal  = inputs[2].cuda(self.args.gpu_id)
+                image = inputs[0].to(self.device)
+                odom  = inputs[1].to(self.device)
+                goal  = inputs[2].to(self.device)
+                
                 self.optimizer.zero_grad()
                 preds, fear = self.net(image, goal)
 
                 loss, _ = self.MapObsLoss(preds, fear, traj_cost, odom, goal)
-
                 loss.backward()
                 self.optimizer.step()
                 train_loss += loss.item()
@@ -242,10 +246,9 @@ class PlannerNetTrainer:
                     wp_viz = []
                     for batch_idx, inputs in enumerate(val_loader):
                         total_batches += 1  # Increment total number of batches
-                        if torch.cuda.is_available():
-                            image = inputs[0].cuda(self.args.gpu_id)
-                            odom  = inputs[1].cuda(self.args.gpu_id)
-                            goal  = inputs[2].cuda(self.args.gpu_id)
+                        image = inputs[0].to(self.device)
+                        odom  = inputs[1].to(self.device)
+                        goal  = inputs[2].to(self.device)
 
                         preds, fear = self.net(image, goal)
                         loss, waypoints = self.MapObsLoss(preds, fear, traj_cost, odom, goal)

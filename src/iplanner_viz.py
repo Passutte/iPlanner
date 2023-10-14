@@ -30,11 +30,13 @@ sys.path.append(planner_path)
 from iplanner.ip_algo import IPlannerAlgo
 from iplanner.rosutil import ROSArgparse
 from iplanner import traj_viz
+from iplanner.torchutil import get_device
 
 class iPlannerNode:
     def __init__(self, args):
         super(iPlannerNode, self).__init__()
         self.config(args)
+        self.device = get_device()
 
         self.iplanner_algo = IPlannerAlgo(args)
         self.traj_viz = traj_viz.TrajViz(os.path.join(*[planner_path, 'camera_intrinsic']), 
@@ -217,9 +219,8 @@ class iPlannerNode:
         return
 
     def pubRenderImage(self, preds, waypoints, odom, goal, fear, image):
-        if torch.cuda.is_available():
-            odom = odom.cuda()
-            goal = goal.cuda()
+        odom = odom.to(self.device)
+        goal = goal.to(self.device)
         image = self.traj_viz.VizImages(preds, waypoints, odom, goal, fear, image, is_shown=False)[0]
         ros_img = ros_numpy.msgify(Image, image, encoding='8UC4')
         self.img_pub.publish(ros_img)

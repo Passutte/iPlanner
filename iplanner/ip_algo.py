@@ -13,18 +13,20 @@ import torch
 import torchvision.transforms as transforms
 
 from iplanner import traj_opt
+from torchutil import get_device
 
 class IPlannerAlgo:
     def __init__(self, args):
         super(IPlannerAlgo, self).__init__()
         self.config(args)
+        self.device = get_device()
 
         self.depth_transform = transforms.Compose([
             transforms.Resize(tuple(self.crop_size)),
             transforms.ToTensor()])
 
-        net, _ = torch.load(self.model_save, map_location=torch.device("cpu"))
-        self.net = net.cuda() if torch.cuda.is_available() else net
+        self.net, _ = torch.load(self.model_save, map_location=torch.device("cpu"))
+        self.net.to(self.device)
 
         self.traj_generate = traj_opt.TrajOpt()
         return None
@@ -43,9 +45,9 @@ class IPlannerAlgo:
     def plan(self, image, goal_robot_frame):
         img = PIL.Image.fromarray(image)
         img = self.depth_transform(img).expand(1, 3, -1, -1)
-        if torch.cuda.is_available():
-            img = img.cuda()
-            goal_robot_frame = goal_robot_frame.cuda()
+        img.to(self.device)
+        goal_robot_frame.to(self.device)
+        
         with torch.no_grad():
             keypoints, fear = self.net(img, goal_robot_frame)
         if self.is_traj_shift:
