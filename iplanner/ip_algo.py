@@ -25,8 +25,8 @@ class IPlannerAlgo:
             transforms.Resize(tuple(self.crop_size)),
             transforms.ToTensor()])
 
-        self.net, _ = torch.load(self.model_save, map_location=torch.device("cpu"))
-        self.net.to(self.device)
+        net, _ = torch.load(self.model_save, map_location=torch.device("cpu"))
+        self.net = net.to(self.device)
 
         self.traj_generate = traj_opt.TrajOpt()
         return None
@@ -45,8 +45,8 @@ class IPlannerAlgo:
     def plan(self, image, goal_robot_frame):
         img = PIL.Image.fromarray(image)
         img = self.depth_transform(img).expand(1, 3, -1, -1)
-        img.to(self.device)
-        goal_robot_frame.to(self.device)
+        img = img.to(self.device)
+        goal_robot_frame = goal_robot_frame.to(self.device)
         
         with torch.no_grad():
             keypoints, fear = self.net(img, goal_robot_frame)
