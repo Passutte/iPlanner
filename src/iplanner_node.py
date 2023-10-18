@@ -29,7 +29,7 @@ sys.path.append(pack_path)
 sys.path.append(planner_path)
 
 from iplanner.ip_algo import IPlannerAlgo
-from iplanner.rosutil import ROSArgparse
+from iplanner.utils.rosutil import ROSArgparse
 
 class iPlannerNode:
     def __init__(self, args):

@@ -9,9 +9,11 @@
 
 import torch
 import pypose as pp
-from tsdf_map import TSDF_Map
-from traj_opt import TrajOpt
 import torch.nn.functional as F
+
+from .tsdf_map import TSDF_Map
+from .traj_opt import TrajOpt
+
 
 torch.set_default_dtype(torch.float32)
 

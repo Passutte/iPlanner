@@ -31,7 +31,7 @@ planner_path = os.path.join(pack_path,'iplanner')
 sys.path.append(pack_path)
 sys.path.append(planner_path)
 
-from iplanner.rosutil import ROSArgparse
+from iplanner.utils.rosutil import ROSArgparse
 
 class DataCollector:
     def __init__(self, args):

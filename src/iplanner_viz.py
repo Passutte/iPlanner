@@ -28,9 +28,9 @@ sys.path.append(pack_path)
 sys.path.append(planner_path)
 
 from iplanner.ip_algo import IPlannerAlgo
-from iplanner.rosutil import ROSArgparse
+from iplanner.utils.rosutil import ROSArgparse
 from iplanner import traj_viz
-from iplanner.torchutil import get_device
+from iplanner.utils.torchutil import get_device
 
 class iPlannerNode:
     def __init__(self, args):

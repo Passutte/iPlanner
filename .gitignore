@@ -31,3 +31,5 @@ data/
 .DS_Store
 
 wandb/
+
+*.egg-info
