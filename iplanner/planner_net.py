@@ -20,8 +20,8 @@ class PlannerNet(nn.Module):
 
     def forward(self, x, goal):
         x = self.encoder(x)
-        x, c = self.decoder(x, goal)
-        return x, c
+        x, c, embeddings = self.decoder(x, goal)
+        return x, c, embeddings
 
 
 class Decoder(nn.Module):
@@ -36,8 +36,8 @@ class Decoder(nn.Module):
         self.conv2 = nn.Conv2d(512, 256, kernel_size=3, stride=1, padding=0);
 
         self.fc1   = nn.Linear(256 * 128, 1024) 
-        self.fc2   = nn.Linear(1024, 512)
-        self.fc3   = nn.Linear(512,  k*3)
+        self.fc2   = nn.Linear(1024, 128)
+        self.fc3   = nn.Linear(128,  k*3)
         
         self.frc1 = nn.Linear(1024, 128)
         self.frc2 = nn.Linear(128, 1)
@@ -55,11 +55,11 @@ class Decoder(nn.Module):
 
         f = self.relu(self.fc1(x))
 
-        x = self.relu(self.fc2(f))
-        x = self.fc3(x)
+        embeddings = self.relu(self.fc2(f))
+        x = self.fc3(embeddings)
         x = x.reshape(-1, self.k, 3)
 
         c = self.relu(self.frc1(f))
         c = self.sigmoid(self.frc2(c))
 
-        return x, c
+        return x, c, embeddings

@@ -7,7 +7,7 @@
         "max-camera-depth": 10.0
     },
     "modelConfig": {
-        "model-save": "models/plannernet_dimensionless.pt",
+        "model-save": "models/plannernet_dimensionless_emb128.pt",
         "resume": false,
         "in-channel": 16,
         "knodes": 5,

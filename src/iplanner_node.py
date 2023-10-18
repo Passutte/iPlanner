@@ -103,7 +103,7 @@ class iPlannerNode:
                 cur_image = self.img.copy()
                 start = time.time()
                 # Network Planning
-                self.preds, self.waypoints, fear_output, _ = self.iplanner_algo.plan(cur_image, self.goal_rb)
+                self.preds, self.waypoints, fear_output, _ , _ = self.iplanner_algo.plan(cur_image, self.goal_rb)
                 end = time.time()
                 self.timer_data.data = (end - start) * 1000
                 self.timer_pub.publish(self.timer_data)

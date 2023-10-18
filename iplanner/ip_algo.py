@@ -49,7 +49,7 @@ class IPlannerAlgo:
         goal_robot_frame = goal_robot_frame.to(self.device)
         
         with torch.no_grad():
-            keypoints, fear = self.net(img, goal_robot_frame)
+            keypoints, fear, embeddings = self.net(img, goal_robot_frame)
         if self.is_traj_shift:
             batch_size, _, dims = keypoints.shape
             keypoints = torch.cat((torch.zeros(batch_size, 1, dims, device=keypoints.device, requires_grad=False), keypoints), axis=1)
@@ -57,4 +57,4 @@ class IPlannerAlgo:
             keypoints[..., 1] += self.sensor_offset_y
         traj = self.traj_generate.TrajGeneratorFromPFreeRot(keypoints , step=0.1)
         
-        return keypoints, traj, fear, img
+        return keypoints, traj, fear, img, embeddings

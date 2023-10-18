@@ -104,7 +104,7 @@ class iPlannerNode:
             if self.ready_for_planning and self.is_goal_init:
                 # network planning
                 cur_image = self.img.copy()
-                self.preds, self.waypoints, fear_output, img_process = self.iplanner_algo.plan(cur_image, self.goal_rb)
+                self.preds, self.waypoints, fear_output, img_process, _ = self.iplanner_algo.plan(cur_image, self.goal_rb)
                 # check goal less than converage range
                 goal_np = self.goal_rb[0, :].cpu().detach().numpy()
                 if (np.sqrt(goal_np[0]**2 + goal_np[1]**2) < self.conv_dist) and self.is_goal_processed and (not self.is_smartjoy):
