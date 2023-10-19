@@ -12,7 +12,7 @@ __all__ = [
     "DepthReconstruction",
     "TrajCost",
     "TrajOpt",
-    "TrajViz"
+    "TrajViz",
     "TSDF_Map",
 ]
 
