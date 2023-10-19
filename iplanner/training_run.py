@@ -185,7 +185,7 @@ class PlannerNetTrainer:
                 goal  = inputs[2].to(self.device)
                 
                 self.optimizer.zero_grad()
-                preds, fear = self.net(image, goal)
+                preds, fear, _ = self.net(image, goal)
 
                 loss, _ = self.MapObsLoss(preds, fear, traj_cost, odom, goal)
                 loss.backward()
@@ -252,7 +252,7 @@ class PlannerNetTrainer:
                         odom  = inputs[1].to(self.device)
                         goal  = inputs[2].to(self.device)
 
-                        preds, fear = self.net(image, goal)
+                        preds, fear, _ = self.net(image, goal)
                         loss, waypoints = self.MapObsLoss(preds, fear, traj_cost, odom, goal)
                         test_loss += loss.item()
 
