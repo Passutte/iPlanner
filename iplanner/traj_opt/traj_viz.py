@@ -14,10 +14,11 @@ import torch
 import numpy as np
 import pypose as pp
 import open3d as o3d
-from tsdf_map import TSDF_Map
 from scipy.spatial.transform import Rotation as R
 import open3d.visualization.rendering as rendering
 from typing import List, Optional
+
+from .tsdf_map import TSDF_Map
 
 IMAGE_WIDTH = 640
 IMAGE_HEIGHT = 360

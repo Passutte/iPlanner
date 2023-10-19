@@ -21,11 +21,9 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 
-from planner_net import PlannerNet
-from dataloader import PlannerData, MultiEpochsDataLoader
-from torchutil import EarlyStopScheduler, get_device
-from traj_cost import TrajCost
-from traj_viz import TrajViz
+from iplanner.plannernet import PlannerNet
+from iplanner.utils import PlannerData, MultiEpochsDataLoader, EarlyStopScheduler, get_device
+from iplanner.traj_opt import TrajCost, TrajViz
 
 torch.set_default_dtype(torch.float32)
 

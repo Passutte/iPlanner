@@ -12,8 +12,9 @@ import math
 import torch
 import torchvision.transforms as transforms
 
-from iplanner import traj_opt
-from torchutil import get_device
+from iplanner.traj_opt import traj_opt
+from iplanner.utils import get_device
+
 
 class IPlannerAlgo:
     def __init__(self, args):

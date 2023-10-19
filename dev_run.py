@@ -10,7 +10,7 @@ sys.path.append('iplanner')
 
 from iplanner.ip_algo import *
 from iplanner.percept_net import *
-from iplanner.torchutil import *
+from iplanner.utils.torchutil import *
 
 
 

@@ -12,7 +12,7 @@ import numpy as np
 import torch
 import os
 
-from torchutil import get_device
+from iplanner.utils import get_device
 
 torch.set_default_dtype(torch.float32)
 
