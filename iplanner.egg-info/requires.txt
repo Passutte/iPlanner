@@ -1,0 +1,8 @@
+torch
+torchvision
+numpy
+wandb
+opencv-python
+pypose
+open3d==0.17.0
+rosnumpy

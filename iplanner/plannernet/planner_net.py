@@ -8,8 +8,9 @@
 # ======================================================================
 
 import torch
-from percept_net import PerceptNet
 import torch.nn as nn
+
+from .percept_net import PerceptNet
 
 
 class PlannerNet(nn.Module):
