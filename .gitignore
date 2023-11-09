@@ -32,4 +32,6 @@ data/
 
 wandb/
 
-*.egg-info
+*.egg-info/
+
+*.egg
