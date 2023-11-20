@@ -121,15 +121,15 @@ class PerceptNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def _forward_impl(self, x):
-        x = self.conv1(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
+    def _forward_impl(self, x): # x: [N, 3, 360, 640]
+        x = self.conv1(x) # x_new: [N, 64, 180, 320]
+        x = self.relu(x) # x_new: [N, 64, 180, 320]
+        x = self.maxpool(x) # x_new: [N, 64, 90, 160]
 
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
+        x = self.layer1(x) # x_new: [N, 64, 90, 160]
+        x = self.layer2(x) # x_new: [N, 128, 45, 80]
+        x = self.layer3(x) # x_new: [N, 256, 23, 40]
+        x = self.layer4(x) # x_new: [N, 512, 12, 20]
 
         return x
 

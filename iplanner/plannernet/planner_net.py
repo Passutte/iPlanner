@@ -13,15 +13,18 @@ import torch.nn as nn
 from .percept_net import PerceptNet
 
 
+
 class PlannerNet(nn.Module):
     def __init__(self, encoder_channel=64, k=5):
         super().__init__()
         self.encoder = PerceptNet(layers=[2, 2, 2, 2])
         self.decoder = Decoder(512, encoder_channel, k)
+        self.global_avg_pool = nn.AdaptiveAvgPool2d((1, 1))
 
     def forward(self, x, goal):
-        x = self.encoder(x)
-        x, c, embeddings = self.decoder(x, goal)
+        x = self.encoder(x) # Encoder --> Latent Embeddings
+        embeddings = self.global_avg_pool(x).view(x.size(0), -1)
+        x, c = self.decoder(x, goal) # Planning Network --> Trajectory
         return x, c, embeddings
 
 
@@ -34,7 +37,7 @@ class Decoder(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
         self.conv1 = nn.Conv2d((in_channels + goal_channels), 512, kernel_size=5, stride=1, padding=1)
-        self.conv2 = nn.Conv2d(512, 256, kernel_size=3, stride=1, padding=0);
+        self.conv2 = nn.Conv2d(512, 256, kernel_size=3, stride=1, padding=0)
 
         self.fc1   = nn.Linear(256 * 128, 1024) 
         self.fc2   = nn.Linear(1024, 128)
@@ -56,11 +59,11 @@ class Decoder(nn.Module):
 
         f = self.relu(self.fc1(x))
 
-        embeddings = self.relu(self.fc2(f))
-        x = self.fc3(embeddings)
+        x = self.relu(self.fc2(f))
+        x = self.fc3(x)
         x = x.reshape(-1, self.k, 3)
 
         c = self.relu(self.frc1(f))
         c = self.sigmoid(self.frc2(c))
 
-        return x, c, embeddings
+        return x, c
