@@ -16,25 +16,11 @@ If you're opting for a manual installation, follow these steps:
     conda activate iplanner
     ```
 
-3. Install PyTorch and Torchvision using the command:
+3. Install iplanner package:
     ```bash
-    conda install pytorch torchvision pytorch-cuda=11.8 -c pytorch -c nvidia
+    pip install -e .
     ```
 
-4. Install numpy version 1.23.5 using conda:
-    ```bash
-    conda install -c anaconda numpy==1.23.5 nbconvert
-    ```
-
-5. Install rospkg, wandb, and PyYAML from the conda-forge channel using the command:
-    ```bash
-    conda install -c conda-forge rospkg wandb pyyaml==6.0
-    ```
-
-6. Install additional necessary packages using pip3:
-    ```bash
-    pip3 install pypose open3d opencv-python rosnumpy
-    ```
 
 ## Installation Using a YAML File
 
