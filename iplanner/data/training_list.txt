@@ -13,5 +13,3 @@ Matterport
 Matterport_tilt
 JeFG25nYj2p
 JeFG25nYj2p_tilt
-vyrNrziPKCB
-tunnel
