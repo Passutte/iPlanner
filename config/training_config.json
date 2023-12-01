@@ -3,11 +3,11 @@
         "data-root": "data",
         "env-id": "training_list.txt",
         "env_type": "TrainingData",
-        "crop-size": [360, 640],
+        "crop-size": [180, 320],
         "max-camera-depth": 10.0
     },
     "modelConfig": {
-        "model-save": "models/plannernet_dimensionless_emb512.pt",
+        "model-save": "models/plannernet_robot_dimension_emb256_low_resolution.pt",
         "resume": false,
         "in-channel": 16,
         "knodes": 5,

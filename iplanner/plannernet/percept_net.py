@@ -129,7 +129,7 @@ class PerceptNet(nn.Module):
         x = self.layer1(x) # x_new: [N, 64, 90, 160]
         x = self.layer2(x) # x_new: [N, 128, 45, 80]
         x = self.layer3(x) # x_new: [N, 256, 23, 40]
-        x = self.layer4(x) # x_new: [N, 512, 12, 20]
+        #x = self.layer4(x) # x_new: [N, 512, 12, 20]
 
         return x
 
