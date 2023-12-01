@@ -70,8 +70,8 @@
             "justMyCode": true,
             "env": {
                 "EXPERIMENT_DIRECTORY": "${workspaceFolder}/iplanner",
-                "DATA_DIRECTORY": "${workspaceFolder}/../iPlanner_Data",
-                //"DATA_DIRECTORY": "${workspaceFolder}/iplanner",
+                //"DATA_DIRECTORY": "${workspaceFolder}/../iPlanner_Data",
+                "DATA_DIRECTORY": "${workspaceFolder}/iplanner",
                 "PYTORCH_CUDA_ALLOC_CONF": "max_split_size_mb:512",
                 "PYTORCH_ENABLE_MPS_FALLBACK":"1"
             }
