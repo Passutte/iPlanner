@@ -18,7 +18,7 @@ class PlannerNet(nn.Module):
     def __init__(self, encoder_channel=64, k=5):
         super().__init__()
         self.encoder = PerceptNet(layers=[2, 2, 2, 2])
-        self.decoder = Decoder(256, encoder_channel, k)
+        self.decoder = Decoder(512, encoder_channel, k)
         self.global_avg_pool = nn.AdaptiveAvgPool2d((1, 1))
 
     def forward(self, x, goal):

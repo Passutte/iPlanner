@@ -86,7 +86,7 @@ class PerceptNet(nn.Module):
                                        dilate=replace_stride_with_dilation[0])
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2,
                                        dilate=replace_stride_with_dilation[1])
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
+        self.layer4 = self._make_layer(block, 512, layers[3], stride=1,
                                        dilate=replace_stride_with_dilation[2])
 
         for m in self.modules():
@@ -128,8 +128,8 @@ class PerceptNet(nn.Module):
 
         x = self.layer1(x) # x_new: [N, 64, 90, 160]
         x = self.layer2(x) # x_new: [N, 128, 45, 80]
-        x = self.layer3(x) # x_new: [N, 256, 23, 40]
-        #x = self.layer4(x) # x_new: [N, 512, 12, 20]
+        x = self.layer3(x) # x_new: [N, 256, 12, 20]
+        x = self.layer4(x) # x_new: [N, 512, 12, 20]
 
         return x
 

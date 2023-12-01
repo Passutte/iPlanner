@@ -7,7 +7,7 @@
         "max-camera-depth": 10.0
     },
     "modelConfig": {
-        "model-save": "models/plannernet_robot_dimension_emb256_low_resolution.pt",
+        "model-save": "models/plannernet_robot_dimension_emb512_low_resolution.pt",
         "resume": false,
         "in-channel": 16,
         "knodes": 5,
